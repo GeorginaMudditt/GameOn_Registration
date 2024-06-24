@@ -1,8 +1,16 @@
-Project 4 - Front-end Dashboard
+#Project 4 - Georgina Mudditt
+##Game On Form
 
-This repo contains all the starting code you need to add the functionality requirements/deliverables for Project 4.
+###Error messages added
 
-1. Fork this repository.
-2. you may also download the entire project to your computer, suggested editor is VS Code and you may use Docker, but it's not required.
-3. There are no dependencies
-4. Remember you need to use custom CSS and Vanilla JavaScript, no jquery, no bootstrap, etc.
+First name: cannot be left blank, min 2 characters, no numbers
+Last name: cannot be left blank, min 2 characters, no numbers
+Email address: correct format including "@"
+Birthdate: correct format, cannot type more than 8 numbers (dd/mm/yyyy)
+Where ...: one city must be selected
+
+###Other changes to form
+
+Form inputs do not clear if it doesn't pass validation
+The close/X icon is functional
+A confirmation message appears when the user successfully submits the form
