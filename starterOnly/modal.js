@@ -22,12 +22,13 @@ function launchModal() {
 
 //DOM Elements
 document.addEventListener('DOMContentLoaded', function() {
-  var firstNameInput = document.getElementById('first');
-  var lastNameInput = document.getElementById('last');
-  var emailInput = document.getElementById('email');
-  var birthdateInput = document.getElementById('birthdate');
-  var quantityInput = document.getElementById('quantity');
-  var submitBtn = document.getElementById('submitBtn');
+  const firstNameInput = document.getElementById('first');
+  const lastNameInput = document.getElementById('last');
+  const emailInput = document.getElementById('email');
+  const birthdateInput = document.getElementById('birthdate');
+  const quantityInput = document.getElementById('quantity');
+  const submitBtn = document.getElementById('submitBtn');
+  const form = document.querySelector('form');
 
 // first name field: cannot be left blank, min 2 characters, no numbers
 
@@ -42,7 +43,7 @@ function validateFirstName(input) {
   }
 
   if (input.value.length === 0) {
-    errorMessageDiv.textContent = 'This is a required field';
+    errorMessageDiv.textContent = 'First Name is a required field';
     errorMessageDiv.style.display = 'block';
     return false;
   } else if (/\d/.test(input.value)) {
@@ -70,7 +71,7 @@ function validateLastName(input) {
   }
 
   if (input.value.length === 0) {
-    errorMessageDiv.textContent = 'This is a required field';
+    errorMessageDiv.textContent = 'Last Name is a required field';
     errorMessageDiv.style.display = 'block';
     return false;
   } else if (/\d/.test(input.value)) {
@@ -99,7 +100,7 @@ function validateEmail(input) {
 
   const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
   if (input.value.length === 0) {
-    errorMessageDiv.textContent = 'This is a required field';
+    errorMessageDiv.textContent = 'Email is a required field';
     errorMessageDiv.style.display = 'block';
     return false;
   } else if (!emailRegex.test(input.value)) {
@@ -122,13 +123,20 @@ function validateBirthdate(input) {
     input.parentNode.insertBefore(errorMessageDiv, input.nextSibling);
   }
 
-  const birthdateRegex = /^(0[1-9]|[12][0-9]|3[01])\/(0[1-9]|1[012])\/([12]\d{3})$/;
+  const birthdateRegex = /^(0[1-9]|[12][0-9]|3[01])\/(0[1-9]|1[012])\/((19|20)\d{2})$/;
   if (input.value.length === 0) {
-    errorMessageDiv.textContent = 'This is a required field';
+    errorMessageDiv.textContent = 'Birthdate is a required field';
     errorMessageDiv.style.display = 'block';
     return false;
   } else if (!birthdateRegex.test(input.value)) {
-    errorMessageDiv.textContent = 'Please type a valid birthdate dd/mm/yyyy';
+    errorMessageDiv.textContent = 'Please type a valid birthdate in the dd/mm/yyyy format';
+    errorMessageDiv.style.display = 'block';
+    return false;
+  }
+  const year = input.value.split('/')[2];
+  // Check if the year starts with 19 or 20
+  if (!(year.startsWith('19') || year.startsWith('20'))) {
+    errorMessageDiv.textContent = 'Year must start with 19 or 20';
     errorMessageDiv.style.display = 'block';
     return false;
   }
@@ -136,7 +144,7 @@ function validateBirthdate(input) {
 }
 
 document.getElementById('birthdate').addEventListener('input', function(e) {
-  var input = e.target.value.replace(/\D/g,''); // Remove non-digits
+  var input = e.target.value.replace(/\D/g,''); 
   var day = input.substr(0, 2);
   var month = input.substr(2, 2);
   var year = input.substr(4, 4);
@@ -159,12 +167,55 @@ function validateQuantity(input) {
   }
 
   if (input.value.length === 0) {
-    errorMessageDiv.textContent = 'This is a required field';
+    errorMessageDiv.textContent = 'Please choose a number';
     errorMessageDiv.style.display = 'block';
     return false;
   }
   return true;
 }
+
+// location field: must select a location
+
+function isLocationSelected() {
+  const radioButtons = document.getElementsByName('location');
+  return Array.from(radioButtons).some(radio => radio.checked);
+}
+
+function getLocationErrorMessageElement() {
+  let errorMessage = document.getElementById('location-error-message');
+  if (!errorMessage) {
+    errorMessage = document.createElement('div');
+    errorMessage.id = 'location-error-message';
+    errorMessage.style.display = 'none';
+    errorMessage.classList.add('error-message');
+    errorMessage.textContent = 'Please choose a location';
+    const lastRadioButton = document.getElementsByName('location')[document.getElementsByName('location').length - 1];
+    lastRadioButton.parentNode.appendChild(errorMessage);
+  }
+  return errorMessage;
+}
+
+submitBtn.addEventListener('click', function(event) {
+  const locationSelected = isLocationSelected();
+  const locationErrorMessage = getLocationErrorMessageElement();
+  
+  if (!locationSelected) {
+    event.preventDefault();
+    locationErrorMessage.style.display = 'block'; 
+  } else {
+    locationErrorMessage.style.display = 'none'; // Hide error message if location is selected
+  }
+});
+
+// Optionally, hide the error message when a location is selected
+document.querySelectorAll('input[name="location"]').forEach(radio => {
+  radio.addEventListener('change', () => {
+    const locationErrorMessage = getLocationErrorMessageElement();
+    if (isLocationSelected()) {
+      locationErrorMessage.style.display = 'none';
+    }
+  });
+});
 
 // prevent form submission if any of the above criteria are not met
 
@@ -174,40 +225,15 @@ submitBtn.addEventListener('click', function(event) {
   var emailValid = validateEmail(emailInput);
   var birthdateValid = validateBirthdate(birthdateInput);
   var quantityValid = validateQuantity(quantityInput);
+  
 
-  if (!firstNameValid || !lastNameValid || !emailValid || !birthdateValid) {
-    event.preventDefault(); // Prevent form submission
+  if (!firstNameValid || !lastNameValid || !emailValid || !birthdateValid || !quantityValid || !locationSelected) {
+    event.preventDefault(); 
+    if (!locationSelected) {
+      errorContainer.style.display = 'block'; 
   }
+}
 });
-});
-
-// prevent form submission and display error message if a location is not chosen
-
-document.addEventListener('DOMContentLoaded', function() {
-  const form = document.querySelector('form'); // Adjust the selector as needed
-  const radioButtons = document.querySelectorAll('input[type="radio"][name="location"]');
-  const errorContainer = document.createElement('div');
-  errorContainer.id = 'location-error';
-  errorContainer.classList.add('error-message');
-  errorContainer.textContent = 'Please select a location';
-  
-  // Assuming all radio buttons are wrapped in a common parent container
-  // Find the parent container of the last radio button
-  const radioButtonsContainer = radioButtons[radioButtons.length - 1].parentNode;
-  
-  // Append the errorContainer to the radio buttons' parent container
-  radioButtonsContainer.appendChild(errorContainer);
-
-  form.addEventListener('submit', function(event) {
-    const isLocationSelected = Array.from(radioButtons).some(radio => radio.checked);
-    
-    if (!isLocationSelected) {
-      event.preventDefault(); // Stop form submission
-      errorContainer.style.display = 'block'; // Show error message
-    } else {
-      errorContainer.style.display = 'none'; // Hide error message if selection is made
-    }
-  });
 });
 
 // close modal event
