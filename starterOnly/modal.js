@@ -26,6 +26,7 @@ document.addEventListener('DOMContentLoaded', function() {
   var lastNameInput = document.getElementById('last');
   var emailInput = document.getElementById('email');
   var birthdateInput = document.getElementById('birthdate');
+  var quantityInput = document.getElementById('quantity');
   var submitBtn = document.getElementById('submitBtn');
 
 // first name field: cannot be left blank, min 2 characters, no numbers
@@ -127,7 +128,7 @@ function validateBirthdate(input) {
     errorMessageDiv.style.display = 'block';
     return false;
   } else if (!birthdateRegex.test(input.value)) {
-    errorMessageDiv.textContent = 'Please type a valid birthdate';
+    errorMessageDiv.textContent = 'Please type a valid birthdate dd/mm/yyyy';
     errorMessageDiv.style.display = 'block';
     return false;
   }
@@ -145,6 +146,26 @@ document.getElementById('birthdate').addEventListener('input', function(e) {
   e.target.value = day + month + year;
 });
 
+// quantity field: cannot be left blank, must be a number
+
+function validateQuantity(input) {
+  var errorMessageDiv = input.nextElementSibling && input.nextElementSibling.classList.contains('error-message') 
+    ? input.nextElementSibling 
+    : document.createElement('div');
+  errorMessageDiv.className = 'error-message';
+  errorMessageDiv.style.display = 'none'; 
+  if (!input.nextElementSibling || !input.nextElementSibling.classList.contains('error-message')) {
+    input.parentNode.insertBefore(errorMessageDiv, input.nextSibling);
+  }
+
+  if (input.value.length === 0) {
+    errorMessageDiv.textContent = 'This is a required field';
+    errorMessageDiv.style.display = 'block';
+    return false;
+  }
+  return true;
+}
+
 // prevent form submission if any of the above criteria are not met
 
 submitBtn.addEventListener('click', function(event) {
@@ -152,6 +173,7 @@ submitBtn.addEventListener('click', function(event) {
   var lastNameValid = validateLastName(lastNameInput);
   var emailValid = validateEmail(emailInput);
   var birthdateValid = validateBirthdate(birthdateInput);
+  var quantityValid = validateQuantity(quantityInput);
 
   if (!firstNameValid || !lastNameValid || !emailValid || !birthdateValid) {
     event.preventDefault(); // Prevent form submission
@@ -159,3 +181,59 @@ submitBtn.addEventListener('click', function(event) {
 });
 });
 
+// prevent form submission and display error message if a location is not chosen
+
+document.addEventListener('DOMContentLoaded', function() {
+  const form = document.querySelector('form'); // Adjust the selector as needed
+  const radioButtons = document.querySelectorAll('input[type="radio"][name="location"]');
+  const errorContainer = document.createElement('div');
+  errorContainer.id = 'location-error';
+  errorContainer.classList.add('error-message');
+  errorContainer.textContent = 'Please select a location';
+  
+  // Assuming all radio buttons are wrapped in a common parent container
+  // Find the parent container of the last radio button
+  const radioButtonsContainer = radioButtons[radioButtons.length - 1].parentNode;
+  
+  // Append the errorContainer to the radio buttons' parent container
+  radioButtonsContainer.appendChild(errorContainer);
+
+  form.addEventListener('submit', function(event) {
+    const isLocationSelected = Array.from(radioButtons).some(radio => radio.checked);
+    
+    if (!isLocationSelected) {
+      event.preventDefault(); // Stop form submission
+      errorContainer.style.display = 'block'; // Show error message
+    } else {
+      errorContainer.style.display = 'none'; // Hide error message if selection is made
+    }
+  });
+});
+
+// close modal event
+
+document.addEventListener('DOMContentLoaded', function() {
+  const closeButton = document.querySelector('.close');
+  closeButton.addEventListener('click', function() {
+    document.querySelector('.bground').style.display = 'none';
+  });
+});
+
+// add thank you message on successful submission of form 
+
+document.addEventListener('DOMContentLoaded', function() {
+  const form = document.querySelector('form');
+  form.addEventListener('submit', function(event) {
+    event.preventDefault();
+    document.querySelector('.bground').style.display = 'none';
+
+    const thankYouMessage = document.createElement('div');
+    thankYouMessage.innerHTML = 'Thank you for completing the registration!<br>A member of our team will contact you by email within 48 hours.';
+    thankYouMessage.classList.add('thank-you-message');
+    document.body.appendChild(thankYouMessage);
+
+    setTimeout(() => {
+      document.body.removeChild(thankYouMessage);
+    }, 10000); 
+  });
+});

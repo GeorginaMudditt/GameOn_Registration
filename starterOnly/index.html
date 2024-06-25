@@ -1,34 +1,30 @@
 <!DOCTYPE html>
 <html lang="en">
+
   <head>
     <meta charset="utf-8" />
     <title>Reservation</title>
     <meta name="viewport" content="width=device-width,initial-scale=1" />
     <link rel="stylesheet" href="modal.css" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-    <link
-      href="https://fonts.googleapis.com/css?family=DM+Sans"
-      rel="stylesheet"
-    />
+    <link href="https://fonts.googleapis.com/css?family=DM+Sans" rel="stylesheet"/>
   </head>
+
   <body>
     <div class="topnav" id="myTopnav">
       <div class="header-logo">
-      <img alt="logo" src="Logo.png" width="auto" height="auto" />
+        <img alt="logo" src="Logo.png" width="auto" height="auto" />
+      </div>
+      <div class="main-navbar">
+        <a href="#" class="active"><span>Home</span></a>
+        <a href="#"><span>Event Details</span></a>
+        <a href="#"><span>About Us</span></a>
+        <a href="#"><span>Contact</span></a>
+        <a href="#"><span>Past Events</span></a>
+        <a href="javascript:void(0);" class="icon" onclick="editNav()"><i class="fa fa-bars"></i></a>
+      </div>
     </div>
-    <div class="main-navbar">
-      
-      <a href="#" class="active"><span>Home</span></a>
-      <a href="#"><span>Event Details</span></a>
-      <a href="#"><span>About Us</span></a>
-      <a href="#"><span>Contact</span></a>
-      <a href="#"><span>Past Events</span></a>
-      <a href="javascript:void(0);" class="icon" onclick="editNav()">
-        <i class="fa fa-bars"></i>
-      </a>
-    </div>
-    </div>
-  </div>
+  
     <main>
       <div class="hero-section">
         <div class="hero-content">
@@ -40,16 +36,12 @@
             Do you live to game? Our next gaming event is now accepting
             reservations for players, but spots are limited.
           </p>
-          <button class="btn-signup modal-btn">
-            sign up now
-          </button>
+          <button class="btn-signup modal-btn">sign up now</button>
         </div>
         <div class="hero-img">
           <img src="./bg_img.jpg" alt="img" />
         </div>
-        <button class="btn-signup modal-btn">
-          sign up now
-        </button>
+        <button class="btn-signup modal-btn">sign up now</button>
       </div>
 
       <div class="bground">
@@ -89,74 +81,25 @@
                 <input type="number" class="text-control" id="quantity" name="quantity" min="0" max="99">
               </div>
               <p class="text-label">Where do you want to participate this year?</p>
-              <div
-                class="formData">
+              <div class="formData" id="location-radio-buttons">
                 <input class="checkbox-input" type="radio" id="location1" name="location" value="New York"/>
-                <label class="checkbox-label" for="location1">
-                  <span class="checkbox-icon"></span>
-                  New York</label
-                >
-                <input
-                  class="checkbox-input"
-                  type="radio"
-                  id="location2"
-                  name="location"
-                  value="San Francisco"
-                />
-                <label class="checkbox-label" for="location2">
-                  <span class="checkbox-icon"></span>
-                  San Francisco</label
-                >
-                <input
-                  class="checkbox-input"
-                  type="radio"
-                  id="location3"
-                  name="location"
-                  value="Seattle"
-                />
-                <label class="checkbox-label" for="location3">
-                  <span class="checkbox-icon"></span>
-                  Seattle</label
-                >
-                <input
-                  class="checkbox-input"
-                  type="radio"
-                  id="location4"
-                  name="location"
-                  value="Chicago"
-                />
-                <label class="checkbox-label" for="location4">
-                  <span class="checkbox-icon"></span>
-                  Chicago</label
-                >
-                <input
-                  class="checkbox-input"
-                  type="radio"
-                  id="location5"
-                  name="location"
-                  value="Boston"
-                />
-                <label class="checkbox-label" for="location5">
-                  <span class="checkbox-icon"></span>
-                  Boston</label
-                >
-                <input
-                  class="checkbox-input"
-                  type="radio"
-                  id="location6"
-                  name="location"
-                  value="Portland"
-                />
-                <label class="checkbox-label" for="location6">
-                  <span class="checkbox-icon"></span>
-                  Portland</label
-                >
+                <label class="checkbox-label" for="location1"><span class="checkbox-icon"></span>New York</label>
+                <input class="checkbox-input" type="radio" id="location2" name="location" value="San Francisco"/>
+                <label class="checkbox-label" for="location2"><span class="checkbox-icon"></span>San Francisco</label>
+                <input class="checkbox-input" type="radio" id="location3" name="location" value="Seattle"/>
+                <label class="checkbox-label" for="location3"><span class="checkbox-icon"></span>Seattle</label>
+                <input class="checkbox-input" type="radio" id="location4" name="location" value="Chicago"/>
+                <label class="checkbox-label" for="location4"><span class="checkbox-icon"></span>Chicago</label>
+                <input class="checkbox-input" type="radio" id="location5" name="location" value="Boston"/>
+                <label class="checkbox-label" for="location5"><span class="checkbox-icon"></span>Boston</label>
+                <input class="checkbox-input" type="radio" id="location6" name="location" value="Portland"/>
+                <label class="checkbox-label" for="location6"><span class="checkbox-icon"></span>Portland</label>
               </div>
 
               <div
                 class="formData">
                 <input class="checkbox-input" type="checkbox" id="checkbox1" checked disabled/>
-                <label class="checkbox2-label" for="checkbox1" required>
+                <label class="checkbox2-label" for="checkbox1">
                   <span class="checkbox-icon"></span>
                   I have read and I agree to GameOn's terms and conditions.
                 </label>
@@ -168,7 +111,7 @@
                 </label>
                 <br>
               </div>
-              <input id="submitBtn" class="btn-submit" type="submit" class="button" value="Go"/>
+              <input id="submitBtn" class="btn-submit button" type="submit" value="Go"/>
             </form>
           </div>
         </div>
