@@ -528,6 +528,7 @@ footer {
 }
 
 /* CSS added by Georgina */
+/* form */
 
 .error-message {
   font-size: 16px;
@@ -550,4 +551,35 @@ footer {
   transform: translate(-50%, -50%);
   z-index: 1000;
   text-align: center;
+}
+
+/* media queries - mobile layout */
+
+@media all and (max-width: 768px) {
+  
+  .header-logo img {
+    width: 200px;
+    margin: 10px;
+  }
+
+  .fa-bars {
+    margin: 10px;
+    color: #fc0c20;
+  }
+
+  .hero-headline {
+    font-size: 45px;
+    width: 85%;
+  }
+
+  #hero-intro {
+    font-size: 20px;
+    width: 85%;
+    margin-top: 20px;
+  }
+  .hero-section {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+  }
 }

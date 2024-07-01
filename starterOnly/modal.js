@@ -1,3 +1,5 @@
+// code already included in project
+
 function editNav() {
   var x = document.getElementById("myTopnav");
   if (x.className === "topnav") {
@@ -19,6 +21,7 @@ modalBtn.forEach((btn) => btn.addEventListener("click", launchModal));
 function launchModal() {
   modalbg.style.display = "block";
 }
+// code added by Georgina
 
 //DOM Elements
 document.addEventListener('DOMContentLoaded', function() {
@@ -134,7 +137,6 @@ function validateBirthdate(input) {
     return false;
   }
   const year = input.value.split('/')[2];
-  // Check if the year starts with 19 or 20
   if (!(year.startsWith('19') || year.startsWith('20'))) {
     errorMessageDiv.textContent = 'Year must start with 19 or 20';
     errorMessageDiv.style.display = 'block';
@@ -205,16 +207,6 @@ submitBtn.addEventListener('click', function(event) {
   } else {
     locationErrorMessage.style.display = 'none'; // Hide error message if location is selected
   }
-});
-
-// Optionally, hide the error message when a location is selected
-document.querySelectorAll('input[name="location"]').forEach(radio => {
-  radio.addEventListener('change', () => {
-    const locationErrorMessage = getLocationErrorMessageElement();
-    if (isLocationSelected()) {
-      locationErrorMessage.style.display = 'none';
-    }
-  });
 });
 
 // prevent form submission if any of the above criteria are not met
