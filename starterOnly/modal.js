@@ -116,44 +116,37 @@ function validateEmail(input) {
 
 // birthdate field: cannot be left blank, must be correct format, user cannot type extra numbers
 
-function validateBirthdate(input) {
-  var errorMessageDiv = input.nextElementSibling && input.nextElementSibling.classList.contains('error-message') 
-    ? input.nextElementSibling 
+function validateBirthdate() {
+  var birthdateInput = document.getElementById('birthdate');
+  var errorMessageDiv = birthdateInput.nextElementSibling && birthdateInput.nextElementSibling.classList.contains('error-message') 
+    ? birthdateInput.nextElementSibling 
     : document.createElement('div');
   errorMessageDiv.className = 'error-message';
   errorMessageDiv.style.display = 'none'; 
-  if (!input.nextElementSibling || !input.nextElementSibling.classList.contains('error-message')) {
-    input.parentNode.insertBefore(errorMessageDiv, input.nextSibling);
+  if (!birthdateInput.nextElementSibling || !birthdateInput.nextElementSibling.classList.contains('error-message')) {
+    birthdateInput.parentNode.insertBefore(errorMessageDiv, birthdateInput.nextSibling);
   }
 
-  const birthdateRegex = /^(0[1-9]|[12][0-9]|3[01])\/(0[1-9]|1[012])\/((19|20)\d{2})$/;
-  if (input.value.length === 0) {
+  birthdateInput.setAttribute('min', '1900-01-01');
+  var yesterday = new Date();
+  yesterday.setDate(yesterday.getDate() - 1);
+  var maxDate = yesterday.toISOString().split('T')[0]; // Format yesterday's date as YYYY-MM-DD
+  birthdateInput.setAttribute('max', maxDate);
+
+  if (birthdateInput.value === '') {
     errorMessageDiv.textContent = 'Birthdate is a required field';
     errorMessageDiv.style.display = 'block';
     return false;
-  } else if (!birthdateRegex.test(input.value)) {
-    errorMessageDiv.textContent = 'Please type a valid birthdate in the dd/mm/yyyy format';
-    errorMessageDiv.style.display = 'block';
-    return false;
-  }
-  const year = input.value.split('/')[2];
-  if (!(year.startsWith('19') || year.startsWith('20'))) {
-    errorMessageDiv.textContent = 'Year must start with 19 or 20';
+  } else if (birthdateInput.value < '1900-01-01' || birthdateInput.value > maxDate) {
+    errorMessageDiv.textContent = 'Please choose a valid birthdate';
     errorMessageDiv.style.display = 'block';
     return false;
   }
   return true;
 }
 
-document.getElementById('birthdate').addEventListener('input', function(e) {
-  var input = e.target.value.replace(/\D/g,''); 
-  var day = input.substr(0, 2);
-  var month = input.substr(2, 2);
-  var year = input.substr(4, 4);
-
-  if (month.length) day += '/';
-  if (year.length) month += '/';
-  e.target.value = day + month + year;
+document.getElementById('birthdate').addEventListener('keydown', function(event) {
+  event.preventDefault();
 });
 
 // quantity field: cannot be left blank, must be a number
